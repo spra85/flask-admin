@@ -1,10 +1,8 @@
 from flask import json
-from markupsafe import escape
-from markupsafe import Markup
+from markupsafe import Markup, escape
 from wtforms.widgets import html_params
 
-from flask_admin._compat import as_unicode
-from flask_admin._compat import text_type
+from flask_admin._compat import as_unicode, text_type
 from flask_admin.babel import gettext
 from flask_admin.form import RenderTemplateWidget
 from flask_admin.helpers import get_url
@@ -30,7 +28,13 @@ class AjaxSelect2Widget:
 
     def __call__(self, field, **kwargs):
         kwargs.setdefault("data-role", "select2-ajax")
-        kwargs.setdefault("data-url", get_url(".ajax_lookup", name=field.loader.name))
+        kwargs.setdefault(
+            "data-url",
+            get_url(
+                f"{field.view_name}.ajax_lookup" if field.view_name else ".ajax_lookup",
+                name=field.loader.name,
+            ),
+        )
 
         allow_blank = getattr(field, "allow_blank", False)
         if allow_blank and not self.multiple:

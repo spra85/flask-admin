@@ -1,16 +1,12 @@
 import itertools
 
-from wtforms.fields import FieldList
-from wtforms.fields import FormField
-from wtforms.fields import SelectFieldBase
+from wtforms.fields import FieldList, FormField, SelectFieldBase
 from wtforms.utils import unset_value
 from wtforms.validators import ValidationError
 
 from flask_admin._compat import iteritems
 
-from .widgets import AjaxSelect2Widget
-from .widgets import InlineFieldListWidget
-from .widgets import InlineFormWidget
+from .widgets import AjaxSelect2Widget, InlineFieldListWidget, InlineFormWidget
 
 
 class InlineFieldList(FieldList):
@@ -146,6 +142,7 @@ class AjaxSelectField(SelectFieldBase):
         validators=None,
         allow_blank=False,
         blank_text="",
+        view_name=None,
         **kwargs,
     ):
         super().__init__(label, validators, **kwargs)
@@ -153,6 +150,7 @@ class AjaxSelectField(SelectFieldBase):
 
         self.allow_blank = allow_blank
         self.blank_text = blank_text
+        self.view_name = view_name
 
     def _get_data(self):
         if self._formdata:
